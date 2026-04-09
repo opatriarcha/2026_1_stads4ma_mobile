@@ -5,10 +5,7 @@ import br.com.senac.tofudidonopi.taskManager.resources.dtos.TaskDTO;
 import br.com.senac.tofudidonopi.taskManager.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -33,5 +30,12 @@ public class TaskResource {
         ).orElseGet(
                 () -> ResponseEntity.notFound().build()
         );
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskDTO> save( @RequestBody TaskDTO taskDTO ){
+        Task task = this.taskService.save(TaskDTO.fromDTO(taskDTO));
+
+        return ResponseEntity.ok(TaskDTO.fromEntity(task));
     }
 }
